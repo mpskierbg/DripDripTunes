@@ -1,159 +1,15 @@
 <html>
 <head>
+<link rel="stylesheet" type="text/css" href="style.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-#page_background {
-background: linear-gradient(180deg, rgba(17,255,212,1) 26%, rgba(0,212,255,1) 100%);
-width: 100vw;
-height: 100vh;
-}
-@import url(https://fonts.googleapis.com/css?family=Open+Sans);
-
-.search {
-  width: 100%;
-  position: relative
-}
-
-.searchTerm {
-  float: left;
-  width: 100%;
-  border: 3px solid #00B4CC;
-  padding: 5px;
-  height: 36px;
-  border-radius: 5px;
-  outline: none;
-  color: #9DBFAF;
-}
-
-.searchTerm:focus{
-  color: #00B4CC;
-}
-
-.searchButton {
-  position: absolute;  
-  right: -35px;
-  width: 40px;
-  height: 36px;
-  border: 1px solid #00B4CC;
-  background: #00B4CC;
-  text-align: center;
-  color: #fff;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 20px;
-}
-
-/*Resize the wrap to see the search bar change!*/
-.wrap{
-  width: 30%;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-#transmissionControl {
-  background: #f1f2f7;
-  position: fixed;
-  color: #656667;
-  background-image: linear-gradient(to bottom, #ebecec, #cfd0d0);
-  bottom: 0;
-  left: 50%;
-  display: block;  
-  margin: auto;
-  border: 1px solid #9da0a1;
-  border-top-left-radius: 7px;
-  border-top-right-radius: 7px;
-  box-shadow: inset 0px 1px 0px 0px #fff;
-  margin-left: -245px;
-  min-width: 495px;
-  box-shadow: 0px 0px 20px 0px #bfbfbf;
-}
-
-#transmissionControl a {
-  text-decoration: none;
-  color: #656667;
-} 
-
-#transmissionControl .transmissionState {
-  padding: 15px 20px 10px;
-  font-size: 22px;
-  border-left: 1px solid #fff;
-  border-right: 1px solid #b0b1b1;
-  text-shadow: 0px 1px 0px #f4f5f6;
-  border-top-left-radius: 7px;
-}
-
-.transmissionState:hover {
-  cursor: pointer;
-}
-
-#transmissionControl .fa {
-  text-shadow: 0px 1px 0px #f4f5f6;
-}
-  
-#transmissionControl span {
-  font-size: 18px;
-  position: relative;
-  bottom: 2px;
-  text-shadow: 0px 1px 0px #f4f5f6;
-  border-right: 1px solid #b0b1b1;
-  padding: 17px 20px 11px 20px;
-}
-
-#transmissionControl .fa-volume-down {
-  border-left: 1px solid #fff;
-  padding: 20px 0px 11px 20px;
-  
-}
-
-#transmissionControl .fa-volume-up {
-   margin-right: 15px;
-}
-
-#transmissionControl .activeButton {
-  background: #c7c8c8;
-  box-shadow: inset 0px 0px 15px 2px #a0a1a1;
-  transition: .4s;
-}
-
-input[type=range] {
-
-display: block;
-margin-right: 25px;
-margin-left: 25px;
-border-radius: 278px;
-position: relative;
-top: 10px
-}
-
-input[type=range] {
-display: inline-block;
-overflow: hidden;
-width: auto;
-height: 35px;
-outline: 0;
-background: -webkit-gradient(linear,50% 0,50% 100%,color-stop(0%,#ccc),color-stop(100%,#ccc));
-background: linear-gradient(to right,#ccc 0,#ccc 100%);
-background-position: center;
-background-size: 99% 4px;
-background-repeat: no-repeat;
--webkit-appearance: none;
-border-radius: 278px;
-}
-
-
-input[type=range]::-webkit-slider-thumb{position:relative;width:20px;height:20px;border-radius:10px;background-color:#fff;box-shadow:0 0 2px rgba(0,0,0,.5),1px 3px 5px rgba(0,0,0,.25);cursor:pointer;-webkit-appearance:none}
-
-input[type=range]::-webkit-slider-thumb:before{position:absolute;top:8px;left:-2001px;width:2000px;height:4px;background:#e6694b;content:' '}input[type=range]::-webkit-slider-thumb:after{position:absolute;top:-20px;left:-20px;padding:30px;content:' '}
-</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 </head>
 <body>
 <div id="page_background">
 <div class="wrap">
    <div class="search">
-      <input type="text" class="searchTerm" placeholder="Search your song">
-      <button type="submit" class="searchButton">
+      <input type="text" class="searchTerm" id="searchTerm" placeholder="Search your song">
+      <button type="submit" onclick="querySearchFromNapsterApi()" class="searchButton">
         <i class="fa fa-search"></i>
      </button>
    </div>
@@ -161,6 +17,7 @@ input[type=range]::-webkit-slider-thumb:before{position:absolute;top:8px;left:-2
 <p id="transmissionControl"><a class="fa fa-play transmissionState"></a><a class="fa fa-pause transmissionState "></a><span>Searched song</span><i class="fa fa-volume-down"></i><input type="range" name="volume"><i class="fa fa-volume-up"></i></p>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
 <script>
 jQuery(document).ready(function($){
     $("a.transmissionState").click(function(){
@@ -168,6 +25,14 @@ jQuery(document).ready(function($){
       $(this).addClass("activeButton");
     });
 });
+
+function querySearchFromNapsterApi(){
+let userSearchQuery = document.getElementById("searchTerm").value;
+let apiStringForNapsterSearch = "http://api.napster.com/v2.2/search?apikey=YTkxZTRhNzAtODdlNy00ZjMzLTg0MWItOTc0NmZmNjU4Yzk4&offset=5&per_type_limit=5&query=" + userSearchQuery;
+
+//string constructer with user search query and build a required napster api search format
+let napsterReturnJsonResult = JSON.parse(apiStringForNapsterSearch);
+}
 </script>
 </body>
 </html>
