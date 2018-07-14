@@ -1,12 +1,16 @@
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="style.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript" src="script.js"></script>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 </head>
 <body>
 <div id="page_background">
-<div class="wrap">
+<div class="grid-container">
+  <div class="item1"><p id="paragraph_track_name"></p></div>
+  <div class="item2"><div class="wrap">
    <div class="search">
       <input type="text" class="searchTerm" id="searchTerm" placeholder="Search your song">
       <button type="submit" onclick="querySearchFromNapsterApi()" class="searchButton">
@@ -14,25 +18,17 @@
      </button>
    </div>
 </div>
-<p id="transmissionControl"><a class="fa fa-play transmissionState"></a><a class="fa fa-pause transmissionState "></a><span>Searched song</span><i class="fa fa-volume-down"></i><input type="range" name="volume"><i class="fa fa-volume-up"></i></p>
 </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-<script>
-jQuery(document).ready(function($){
-    $("a.transmissionState").click(function(){
-      $("a.transmissionState").removeClass("activeButton");
-      $(this).addClass("activeButton");
-    });
-});
-
-function querySearchFromNapsterApi(){
-let userSearchQuery = document.getElementById("searchTerm").value;
-let apiStringForNapsterSearch = "http://api.napster.com/v2.2/search?apikey=YTkxZTRhNzAtODdlNy00ZjMzLTg0MWItOTc0NmZmNjU4Yzk4&offset=5&per_type_limit=5&query=" + userSearchQuery;
-
-//string constructer with user search query and build a required napster api search format
-let napsterReturnJsonResult = JSON.parse(apiStringForNapsterSearch);
-}
-</script>
+<div class="item3">3</div>
+  <div class="item4"><audio controls id="paragraph_preview_url">
+  <source type="audio/mpeg">
+</audio></div>
+  <div class="item5">5</div>
+  <div class="item6">6</div>
+  <div class="item7">7</div>
+  <div class="item8"><p id="transmissionControl"><a class="fa fa-play transmissionState"></a><a class="fa fa-pause transmissionState "></a><span id="bottom_player_song_name">Searched song</span><i class="fa fa-volume-down"></i><input type="range" name="volume"><i class="fa fa-volume-up"></i></p></div>  
+  <div class="item9">9</div>
+</div>
+</div>
 </body>
 </html>
